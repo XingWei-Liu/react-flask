@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import picture from './requires.png'
+import picture from '../requires.png'
 
 class Loadpng extends React.Component {
     constructor(props) {
