@@ -17,7 +17,8 @@ class Loadpng extends React.Component {
       this.handleZoomIn = this.handleZoomIn.bind(this);
       this.handleZoomOut = this.handleZoomOut.bind(this);
 
-      this.imgRef = React.createRef();
+      this.imgRef = React.createRef(picture);
+      
     }
   
     get_png(){
@@ -61,10 +62,14 @@ class Loadpng extends React.Component {
 
     // Event handler callback zoom out
     handleZoomOut(){
+      const height = this.imgRef.current.clientHeight;
+      const width = this.imgRef.current.clientWidth;
       // Assigning original height and width
       this.setState({
-        height : this.initialHeight,
-        width : this.initialWidth,
+        // height : this.initialHeight - 10,
+        // width : this.initialWidth - 10,
+        height : height - 10,
+        width : width - 10,
       })
     }
   

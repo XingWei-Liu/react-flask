@@ -1,20 +1,16 @@
-// // import logo from './logo.svg';
-// import './App.css';
-import Clock from './components/Clock.js';
-// // import ButtonEvent from './ButtonEvent.js';
-// // import Loadpng from './Loadpng.js';
-
-// import Router from './route/index'
-
-//       <Router></Router>
-
-// //<Clock name='datetime'/>
-
+// import Switch from './components/Switch.js';
+import { useState } from 'react';
+import React from 'react';
 
 import { FileOutlined, PieChartOutlined, UserOutlined, DesktopOutlined, TeamOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { useState } from 'react';
+
+import Clock from './components/Clock.js';
+import ButtonEvent from './components/ButtonEvent.js';
+import Loadpng from './components/Loadpng.js';
+
 const { Header, Content, Footer, Sider } = Layout;
+
 function getItem(label, key, icon, children) {
   return {
     key,
@@ -34,77 +30,117 @@ const items = [
   getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
   getItem('Files', '9', <FileOutlined />),
 ];
-const App = () => {
+
+
+
+
+       
+export default function App () {
   const [collapsed, setCollapsed] = useState(false);
+
+  const [component, setComponent] = React.useState(true);
+  
+  // let component = "";
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const component = "test";
 
   const menuClick = (item) => {
     console.log("menu %s select", item.key);
-    if(item.key == 1){
-      component  = "<Clock />";
+    switch(item.key){
+      case '1':
+        setComponent("Clock");
+        break;
+      case '2':
+        setComponent("ButtonEvent");
+        break;
+      case '3':
+        setComponent("Loadpng");
+        break;
+      default:
+        setComponent("Clock");
     }
   }
 
-  return (
+  const do_switch = () => {
+    console.log("menu %s in switch", component);
+    switch (component) {
+    case 'Clock':
+        return <Clock />
+    case 'ButtonEvent':
+        return <ButtonEvent />
+    case 'Loadpng':
+        return <Loadpng />
+    default:
+        return <Clock />
+    }
+  };
+
+  return(
     <Layout
+  style={{
+    minHeight: '100vh',
+  }}
+>
+  <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+    <div
       style={{
-        minHeight: '100vh',
+        height: 32,
+        margin: 16,
+        background: 'rgba(255, 255, 255, 0.2)',
+      }}
+    />
+    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={menuClick}/>
+  </Sider>
+  <Layout className="site-layout">
+    <Header
+      style={{
+        padding: 0,
+        background: colorBgContainer,
+      }}
+    />
+    <Content
+      style={{
+        margin: '0 16px',
       }}
     >
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div
-          style={{
-            height: 32,
-            margin: 16,
-            background: 'rgba(255, 255, 255, 0.2)',
-          }}
-        />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={menuClick}/>
-      </Sider>
-      <Layout className="site-layout">
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        />
-        <Content
-          style={{
-            margin: '0 16px',
-          }}
-        >
-          <Breadcrumb
-            style={{
-              margin: '16px 0',
-            }}
-          >
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-            }}
-          >
-            {/* {component} */}
-            <Clock />
-          </div>
-        </Content>
-        <Footer
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
-      </Layout>
-    </Layout>
-  );
+      <Breadcrumb
+        style={{
+          margin: '16px 0',
+        }}
+      >
+        <Breadcrumb.Item>User</Breadcrumb.Item>
+        <Breadcrumb.Item>Bill</Breadcrumb.Item>
+      </Breadcrumb>
+      <div
+        style={{
+          padding: 24,
+          minHeight: 360,
+          background: colorBgContainer,
+        }}
+      >
+        {do_switch()}
+      </div>
+    </Content>
+    <Footer
+      style={{
+        textAlign: 'center',
+      }}
+    >
+      Ant Design ©2023 Created by Ant UED
+    </Footer>
+  </Layout>
+</Layout>
+  )
 };
-export default App;
+// export default App;
+
+// // import logo from './logo.svg';
+// import './App.css';
+// import Router from './route/index'
+
+//       <Router></Router>
+
+// //<Clock name='datetime'/>
